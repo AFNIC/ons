@@ -1,0 +1,3 @@
+307512C7016EE24000000000 [EPC class1 Gen2] # Sony CDs - Asian root (new)
+307546D56400A70000000000 [EPC class1 Gen2] # Malta Tourism Product - Variable root
+3074B77F2861B34000000000 [EPC class1 Gen2] # Frisk Product - European root

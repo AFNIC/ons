@@ -1,0 +1,15 @@
+; Conf file for 3.2.6.8.9.9.0.sgtin.id.onsam.test.
+
+$TTL 1
+
+@ IN SOA local-ons.rd.nic.fr. hostmaster.rd.nic.fr. (
+    2009080800  ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    1 ) ; negative cache
+
+    IN  NS  local-ons.rd.nic.fr. 
+
+; NAPTR 
+4.9.1.3.1.6 IN NAPTR 0 0 "u" "EPC+html" "!^.*$!http://www.coca-cola.com/index.jsp!" .

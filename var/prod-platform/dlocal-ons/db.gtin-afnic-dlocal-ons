@@ -1,0 +1,35 @@
+; Zone file for AFNIC local ONS 
+
+$TTL 180  
+
+@ IN SOA pp-dlocal-ons.rd.nic.fr. hostmaster.nic.fr. (
+    2011121201 ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    180 ) ; negative cache
+
+    IN NS pp-dlocal-ons.rd.nic.fr. 
+    IN NS ns3.nic.fr.
+
+
+; NAPTR for GTIN:3770002484012 (GCP=3770002484) - AFNIC test
+2.1.0 NAPTR 0 0 "u"  "EPC+html"  "!^.*$!http://www.afnic.fr/actu/observatoire!" .
+
+; NAPTR for GTIN:3770002484029 (GCP=3770002484) - AFNIC test
+9.2.0 NAPTR 0 0 "u"  "EPC+html"  "!^.*$!http://faites-vous-un-nom.fr!" .
+
+; NAPTR for GTIN:3770002484036 (GCP=3770002484) - AFNIC demo
+6.3.0 NAPTR 0 0 "u"  "EPC+html"  "!^.*$!http://www.friskpowermint.ch/?fuseaction=m1.home&lan=fr!" .
+
+_services.1.2.3 PTR _http._tcp
+_services.1.2.3 PTR _ipp._tcp
+
+_http._tcp PTR app1._http._tcp
+           PTR app2._http._tcp
+
+app1._http._tcp SRV 0 0 80 docs.example.org.
+                TXT "txtvers=1" "path=/"
+
+app2._http._tcp SRV 0 0 80 epcis.example.net.
+                TXT "txtvers=2" "path=/products"

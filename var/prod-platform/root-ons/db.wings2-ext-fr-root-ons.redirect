@@ -1,0 +1,6 @@
+; F-ONS redirections (from Common Mapping Table)
+0.9.8.gtin.id.ons-peer.fr. DNAME 0.9.8.gtin.id.ons-peer.in. ; GS1 India (890)
+0.5.7.gtin.id.ons-peer.fr. DNAME 0.5.7.gtin.id.ons-peer.mx. ; GS1 Mexico (750)
+; F-ONS Client testing 
+0.3.7.gtin.gs1.id.ons-peer.fr. DNAME 0.3.7.gtin.gs1.id.ons.dev.gs1.se. ; GS1 Sweden (730)
+0.3.7.gln.gs1.id.ons-peer.fr. DNAME 0.3.7.gln.gs1.id.ons.dev.gs1.se. ; GS1 Sweden (730)

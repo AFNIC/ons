@@ -1,0 +1,131 @@
+; serial:2010021609
+; default_ons_root:onsat.test
+    
+; GS1 Europe
+300-379:GS1 France:onseu.test
+380:GS1 Bulgaria:onseu.test
+383:GS1 Slovenija:onseu.test
+385:GS1 Croatia:onseu.test
+387:GS1 BIH (Bosnia-Herzegovina):onseu.test
+389:GS1 Montenegro:onseu.test
+400-440:GS1 Germany:onseu.test
+460-469:GS1 Russia:onseu.test
+474:GS1 Estonia:onseu.test
+475:GS1 Latvia:onseu.test
+476:GS1 Azerbaijan:onseu.test
+477:GS1 Lithuania:onseu.test
+481:GS1 Belarus:onseu.test
+482:GS1 Ukraine:onseu.test
+484:GS1 Moldova:onseu.test
+485:GS1 Armenia:onseu.test
+486:GS1 Georgia:onseu.test
+500-509:GS1 UK:onseu.test
+520:GS1 Greece:onseu.test
+529:GS1 Cyprus:onseu.test
+530:GS1 Albania:onseu.test
+531:GS1 MAC (FYR Macedonia):onseu.test
+535:GS1 Malta:onseu.test
+539:GS1 Ireland:onseu.test
+540-549:GS1 Belgium & Luxembourg:onseu.test
+560:GS1 Portugal:onseu.test
+569:GS1 Iceland:onseu.test
+570-579:GS1 Denmark:onseu.test
+590:GS1 Poland:onseu.test
+594:GS1 Romania:onseu.test
+599:GS1 Hungary:onseu.test
+640-649:GS1 Finland:onseu.test
+700-709:GS1 Norway:onseu.test
+730-739:GS1 Sweden:onseu.test
+800-839:GS1 Italy:onseu.test
+840-849:GS1 Spain:onseu.test
+858:GS1 Slovakia:onseu.test
+859:GS1 Czech:onseu.test
+860:GS1 Serbia:onseu.test
+868-869:GS1 Turkey:onseu.test
+870-879:GS1 Nederlands:onseu.test
+900-919:GS1 Austria:onseu.test
+
+; GS1 Asia 
+450-459:GS1 Japan:onsas.test
+490-499:GS1 Japan:onsas.test
+470:GS1 Kyrgyzstan:onsas.test
+471:GS1 Taiwan:onsas.test
+478:GS1 Uzbekistan:onsas.test
+479:GS1 Sri Lanka:onsas.test
+480:GS1 Philippines:onsas.test
+487:GS1 Kazakstan:onsas.test
+488:GS1 Tajikistan:onsas.test
+489:GS1 Hong Kong:onsas.test
+626:GS1 Iran:onsas.test
+627:GS1 Kuwait:onsas.test
+628:GS1 Saudi Arabia:onsas.test
+629:GS1 Emirates:onsas.test
+690-695:GS1 China:onsas.test
+865:GS1 Mongolia:onsas.test
+867:GS1 North Korea:onsas.test
+880:GS1 South Korea:onsas.test
+884:GS1 Cambodia:onsas.test
+885:GS1 Thailand:onsas.test
+888:GS1 Singapore:onsas.test
+890:GS1 India:onsas.test
+893:GS1 Vietnam:onsas.test
+896:GS1 Pakistan:onsas.test
+899:GS1 Indonesia:onsas.test
+955:GS1 Malaysia:onsas.test
+958:GS1 Macau:onsas.test
+
+; GS1 America
+000-019:GS1 US:onsam.test
+030-039:GS1 US:onsam.test
+060-139:GS1 US:onsam.test
+740:GS1 Guatemala:onsam.test
+741:GS1 El Salvador:onsam.test
+742:GS1 Honduras:onsam.test
+743:GS1 Nicaragua:onsam.test
+744:GS1 Costa Rica:onsam.test
+745:GS1 Panama:onsam.test
+746:GS1 Republica Dominicana:onsam.test
+750:GS1 Mexico:onsam.test
+754-755:GS1 Canada:onsam.test
+759:GS1 Venezuela:onsam.test
+770:GS1 Colombia:onsam.test
+773:GS1 Uruguay:onsam.test
+775:GS1 Peru:onsam.test
+777:GS1 Bolivia:onsam.test
+779:GS1 Argentina:onsam.test
+780:GS1 Chile:onsam.test
+784:GS1 Paraguay:onsam.test
+786:GS1 Ecuador:onsam.test
+789-790:GS1 Brasil:onsam.test
+850:GS1 Cuba:onsam.test
+
+; GS1 Africa
+528:GS1 Lebanon:onsaf.test
+600-601:GS1 South Africa:onsaf.test
+603:GS1 Ghana:onsaf.test
+611:GS1 Morocco:onsaf.test
+613:GS1 Algeria:onsaf.test
+615:GS1 Nigeria:onsaf.test
+616:GS1 Kenya:onsaf.test
+618:GS1 Ivory Coast:onsaf.test
+619:GS1 Tunisia:onsaf.test
+622:GS1 Egypt:onsaf.test
+624:GS1 Libya:onsaf.test
+
+; Non assignated ONS root
+020-029:Restricted distribution (MO defined):_default
+040-049:Restricted distribution (MO defined):_default
+050-059:Coupons:_default
+200-299:Restricted distribution (MO defined):_default
+608:GS1 Bahrain:_default
+609:GS1 Mauritius:_default
+621:GS1 Syria:_default
+729:GS1 Israel:_default
+930-939:GS1 Australia:_default
+940-949:GS1 New Zealand:_default
+950:GS1 Global Office:_default
+977:Serial publications (ISSN):_default
+978-979:Bookland (ISBN):_default
+980:Refund receipts:_default
+981-982:Common Currency Coupons:_default
+990-999:Coupons:_default

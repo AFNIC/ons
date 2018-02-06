@@ -1,0 +1,16 @@
+# for ONSEU 
+urn:epc:id:sgtin:3006410.100045
+urn:epc:id:sgtin:5354841.001234 
+
+# for ONSAS
+# urn:epc:id:sgtin:6905816.100045
+# urn:epc:id:sgtin:3006410.100045
+# urn:epc:id:sgtin:6274571.001234
+
+# for ONSAM
+# urn:epc:id:sgtin:7546823.100045
+# urn:epc:id:sgtin:7556823.200036 
+# urn:epc:id:sgtin:7504649.001234
+
+# for ONSAF
+urn:epc:id:sgtin:6168765.100045

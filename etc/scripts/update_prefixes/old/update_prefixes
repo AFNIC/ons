@@ -1,0 +1,112 @@
+#!/bin/bash
+
+# Script to synchronize the ONS server with gs1 prefixes file
+# This file have to be downloaded from a proper server
+# The ONS server is reload automatically
+
+# See parameters in config file
+. /etc/ons/scripts/update_prefixes/update_prefixes.conf
+
+current_ons_root=$ONS
+dest_file=db-redirect.$ONS
+# redirect_type=NAPTR
+redirect_type=DNAME
+
+cd $DB_ONS_PATH
+
+echo "GS1 prefixes update for : $ONS"
+
+# Download the prefixes files
+if [ -f $CMT_FILE ];
+then
+    mv -f $CMT_FILE $CMT_FILE.back
+fi
+
+echo -n "Downloading new CMT " && wget -q $SERVER$CMT_FILE && echo "[ok]"
+
+if [ ! -f $CMT_FILE ]; then
+    echo "[ko]"
+    echo "No CMT found. Update canceled !"
+    exit 1
+fi
+
+echo -n "Generating Redirections..."
+echo "; ONS CMT" > $dest_file
+
+# Parse CMT lines in DNAME RR
+while read line
+do
+    if [[ "$line" =~ ^default_ons_root:(.*)$ ]] # get default root
+    then
+        default_ons_root=${BASH_REMATCH[1]}
+        continue
+    elif [[ "$line" =~ ^serial:(.*)$ ]] # get version of the CMT
+    then
+        serial=${BASH_REMATCH[1]}
+        continue 
+    elif [[ "$line" =~ ^([0-9]+)(-)?([0-9]+)?:(.*):(.*)$ ]] 
+    then
+        # CMT line format is 'prefix1-prefixN:MO_name:onsroot_name'
+        gs1_prefix1=${BASH_REMATCH[1]}
+        if [ "${BASH_REMATCH[3]}" != "" ]
+        then
+            gs1_prefix2=${BASH_REMATCH[3]}
+        else
+            gs1_prefix2=$gs1_prefix1
+        fi
+        gs1_member=${BASH_REMATCH[4]}
+        onsroot=${BASH_REMATCH[5]}
+    else
+        continue
+    fi
+
+
+    if [ "$onsroot" == "_default" ]
+    then
+        if [ "$default_ons_root" == "" ] 
+        then
+            # continue if no default root is defined for non assigned prefixes
+            continue    
+        else
+            onsroot=$default_ons_root          
+        fi
+    fi
+
+    if [ "$current_ons_root" = "$onsroot" ]
+    then
+        continue
+    fi
+
+    index1=`expr $gs1_prefix1 + 0`
+    index2=`expr $gs1_prefix2 + 0`
+
+    for (( i=$index1; i<=$index2; i++ ))
+    do
+        prefix=$i
+            
+        if [ $i -lt 10 ]
+        then
+            prefix="00$prefix"
+        elif [ $i -lt 100 ]
+        then
+            prefix="0$prefix"
+        fi
+
+        inverted_prefix=${prefix:2:1}.${prefix:1:1}.${prefix:0:1} # invert prefix
+
+        # write DNAME or NAPTR in the zone file
+        if [ "$redirect_type" = "DNAME" ]
+        then 
+            echo "$inverted_prefix.sgtin.id.$current_ons_root. IN DNAME $inverted_prefix.sgtin.id.$onsroot. ; $gs1_member ($prefix)" >> $dest_file
+        elif [ "$redirect_type" = "NAPTR" ]
+        then
+            echo "*.$inverted_prefix.sgtin.id.$current_ons_root. IN NAPTR 0 0 \"\" \"\" \"!^urn:epc:id:([a-z]+):([0-9]+).([0-9]+)\$!\\\\3.\\\\2.\\\\1.id.$onsroot.!\" . ; $gs1_member ($prefix)" >> $dest_file
+        fi
+    done
+done < $CMT_FILE
+
+echo "[ok]"
+
+# Reload ONS server
+echo -n "Reloading ONS server "
+$ONSCTL reload $ONSNAME 1>/dev/null && echo "[ok]" || echo "[ko]"

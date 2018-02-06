@@ -1,0 +1,65 @@
+; Zone file for country-ons (WINGS QTESTS)
+
+$TTL 1
+
+@ IN SOA wings-country-ons.rd.nic.fr. hostmaster.nic.fr. (
+   2011031401 ; serial
+   3h  ; refresh
+   1h  ; retry
+   1w  ; expire
+   1 ) ; negative cache
+
+   IN NS wings-country-ons.rd.nic.fr.
+
+; Delegations to companies
+
+6.5.9.1 IN NS wings-local-ons.rd.nic.fr.
+7.5.9.1 IN NS wings-local-ons.rd.nic.fr.
+8.5.9.1 IN NS wings-local-ons.rd.nic.fr.
+9.5.9.1 IN NS wings-local-ons.rd.nic.fr.
+0.6.9.1 IN NS wings-local-ons.rd.nic.fr.
+1.6.9.1 IN NS wings-local-ons.rd.nic.fr.
+2.6.9.1 IN NS wings-local-ons.rd.nic.fr.
+3.6.9.1 IN NS wings-local-ons.rd.nic.fr.
+4.6.9.1 IN NS wings-local-ons.rd.nic.fr.
+5.6.9.1 IN NS wings-local-ons.rd.nic.fr.
+6.6.9.1 IN NS wings-local-ons.rd.nic.fr.
+7.6.9.1 IN NS wings-local-ons.rd.nic.fr.
+8.6.9.1 IN NS wings-local-ons.rd.nic.fr.
+9.6.9.1 IN NS wings-local-ons.rd.nic.fr.
+0.7.9.1 IN NS wings-local-ons.rd.nic.fr.
+1.7.9.1 IN NS wings-local-ons.rd.nic.fr.
+2.7.9.1 IN NS wings-local-ons.rd.nic.fr.
+3.7.9.1 IN NS wings-local-ons.rd.nic.fr.
+4.7.9.1 IN NS wings-local-ons.rd.nic.fr.
+5.7.9.1 IN NS wings-local-ons.rd.nic.fr.
+6.7.9.1 IN NS wings-local-ons.rd.nic.fr.
+7.7.9.1 IN NS wings-local-ons.rd.nic.fr.
+8.7.9.1 IN NS wings-local-ons.rd.nic.fr.
+9.7.9.1 IN NS wings-local-ons.rd.nic.fr.
+0.8.9.1 IN NS wings-local-ons.rd.nic.fr.
+1.8.9.1 IN NS wings-local-ons.rd.nic.fr.
+2.8.9.1 IN NS wings-local-ons.rd.nic.fr.
+3.8.9.1 IN NS wings-local-ons.rd.nic.fr.
+4.8.9.1 IN NS wings-local-ons.rd.nic.fr.
+5.8.9.1 IN NS wings-local-ons.rd.nic.fr.
+6.8.9.1 IN NS wings-local-ons.rd.nic.fr.
+7.8.9.1 IN NS wings-local-ons.rd.nic.fr.
+8.8.9.1 IN NS wings-local-ons.rd.nic.fr.
+9.8.9.1 IN NS wings-local-ons.rd.nic.fr.
+0.9.9.1 IN NS wings-local-ons.rd.nic.fr.
+1.9.9.1 IN NS wings-local-ons.rd.nic.fr.
+2.9.9.1 IN NS wings-local-ons.rd.nic.fr.
+3.9.9.1 IN NS wings-local-ons.rd.nic.fr.
+4.9.9.1 IN NS wings-local-ons.rd.nic.fr.
+5.9.9.1 IN NS wings-local-ons.rd.nic.fr.
+6.9.9.1 IN NS wings-local-ons.rd.nic.fr.
+7.9.9.1 IN NS wings-local-ons.rd.nic.fr.
+8.9.9.1 IN NS wings-local-ons.rd.nic.fr.
+9.9.9.1 IN NS wings-local-ons.rd.nic.fr.
+0.0.0.2 IN NS wings-local-ons.rd.nic.fr.
+1.0.0.2 IN NS wings-local-ons.rd.nic.fr.
+2.0.0.2 IN NS wings-local-ons.rd.nic.fr.
+3.0.0.2 IN NS wings-local-ons.rd.nic.fr.
+4.0.0.2 IN NS wings-local-ons.rd.nic.fr.
+5.0.0.2 IN NS wings-local-ons.rd.nic.fr.

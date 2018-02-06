@@ -1,0 +1,15 @@
+; Zone file for dlocal-ons (WINGS QTESTS)
+
+$TTL 1
+
+@ IN SOA pp-dlocal-ons.rd.nic.fr. hostmaster.nic.fr. (
+   2011031601 ; serial
+   3h  ; refresh
+   1h  ; retry
+   1w  ; expire
+   1 ) ; negative cache
+
+   IN NS pp-dlocal-ons.rd.nic.fr.
+
+
+5.4.3.8.3.1.2 naptr 0 0 "u" "epc+html" "!^.*$!http://www.google.fr!" . 

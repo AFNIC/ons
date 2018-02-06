@@ -1,0 +1,15 @@
+; Configuration file for 0.5.4.id.onsas.test.db
+
+$TTL 1
+
+@ IN SOA country-ons.rd.nic.fr. hostmaster.rd.nic.fr. (
+    2009080800  ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    1 ) ; negative cache
+
+    IN NS country-ons.rd.nic.fr. 
+
+; Delegation to Japanese Company
+2.5.9.1 IN NS local-ons.rd.nic.fr.

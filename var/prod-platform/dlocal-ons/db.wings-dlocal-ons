@@ -1,0 +1,16 @@
+; Zone file for dlocal-ons (WINGS)
+
+$TTL 1
+
+@ IN SOA wings-dlocal-ons.rd.nic.fr. hostmaster.nic.fr. (
+ 2011121201 ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    1 ) ; negative cache
+
+    IN NS wings-dlocal-ons.rd.nic.fr. 
+    IN NS ns3.nic.fr.
+
+; NAPTR for products 
+8.6.6.0.0.0 IN NAPTR 0 0 "u" "EPC+html" "!^.*$!http://www.visitmalta.com/main?l=4!" .

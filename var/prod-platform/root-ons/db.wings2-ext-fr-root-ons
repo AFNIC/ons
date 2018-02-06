@@ -1,0 +1,22 @@
+; Zone file for root-ons (WINGS2-ext French ONS Root)
+
+$TTL 1
+
+@ IN SOA ns1-root.ons-servers.fr. hostmaster.nic.fr. (
+ 2012043000 ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    1 ) ; negative cache
+
+    IN NS ns1-root.ons-servers.fr.
+    IN NS ns2-root.ons-servers.fr.
+
+; redirections (DNAME)
+$include /var/ons/prod-platform/root-ons/db.wings2-ext-fr-root-ons.redirect
+
+; Delegations to french company (GCP=3770002484)
+4.8.4.2.0.0.0.7.7.3.gtin.gs1.id IN NS ns1-local.ons-servers.fr. 
+                                IN NS ns2-local.ons-servers.fr.
+
+

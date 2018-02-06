@@ -1,0 +1,15 @@
+; Configuration file for 0.0.3.sgtin.id.onseu.test 
+
+$TTL 1
+
+@ IN SOA country-ons.rd.nic.fr. hostmaster.rd.nic.fr. (
+        2009080800  ; serial
+        3h  ; refresh
+        1h  ; retry
+        1w  ; expire
+        1 ) ; negative cache
+
+        IN  NS  country-ons.rd.nic.fr.
+
+; Delegation to French Company
+0.1.4.6 IN  NS  local-ons.rd.nic.fr.

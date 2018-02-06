@@ -1,0 +1,30 @@
+[@
+
+# European ONS Root
+535:GS1 Malta:ons-peer.eu
+300:GS1 France:ons-peer.eu
+379:GS1 France:ons-peer.eu
+378:GS1 France:ons-peer.eu
+377:GS1 France:ons-peer.eu
+
+# American ONS Root
+099:GS1 US:ons-peer.com
+137:GS1 US:ons-peer.com
+138:GS1 US:ons-peer.com
+139:GS1 US:ons-peer.com
+750:GS1 Mexico:ons-peer.com
+755:GS1 Peru:ons-peer.com
+
+# Asian ONS Root
+450:GS1 Japan:ons-peer.asia
+451:GS1 Japan:ons-peer.asia
+690:GS1 China:ons-peer.asia
+693:GS1 China:ons-peer.asia
+694:GS1 China:ons-peer.asia
+695:GS1 China:ons-peer.asia
+
+# New African ONS Root
+601:GS1 South Africa:ons-peer-africa.gennic.net
+
+@]
+

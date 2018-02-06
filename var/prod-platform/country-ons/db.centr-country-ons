@@ -1,0 +1,17 @@
+; Zone file for country-ons (CENTR)
+
+$TTL 180
+
+@ IN SOA centr-country-ons.rd.nic.fr. hostmaster.nic.fr. (
+    2011121200 ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    180 ) ; negative cache
+
+    IN NS centr-country-ons.rd.nic.fr. 
+    IN NS ns3.nic.fr.
+
+; delegation to a company
+0.1.4.6 IN NS centr-local-ons.rd.nic.fr.
+        IN NS ns3.nic.fr.

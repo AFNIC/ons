@@ -1,0 +1,18 @@
+; Zone file for root-ons (WINGS) - Africa test
+
+$TTL 180
+
+@ IN SOA wings-root-ons.rd.nic.fr. hostmaster.nic.fr. (
+ 2011011101 ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    180 ) ; negative cache
+
+    IN NS wings-root-ons.rd.nic.fr.
+
+; redirections (DNAME or NAPTR)
+$include /var/ons/prod-platform/root-ons/db.wings-africa-root-ons.redirect 
+
+; Delegations directly to companies
+8.2.4.7.1.0.6.sgtin.id IN NS wings-dlocal-ons.rd.nic.fr.

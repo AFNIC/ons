@@ -1,0 +1,19 @@
+; Zone file for dlocal-ons (CENTR)
+
+$TTL 180
+
+@ IN SOA centr-dlocal-ons.rd.nic.fr. hostmaster.nic.fr. (
+    2010060102 ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    180 ) ; negative cache
+
+    IN NS centr-dlocal-ons.rd.nic.fr. 
+    IN NS ns3.nic.fr.
+
+; NAPTR for products 
+8.6.6.0.0.0 IN NAPTR 0 0 "u" "EPC+html" "!^.*$!http://www.visitmalta.com/main?l=4!" .
+
+; For testing the GTIN products
+2.1.0.4.8.4.2.0.0.0 IN  NAPTR 0 0 "u"  "EPC+html"  "!^.*$!http://www.afnic.fr/actu/observatoire!" .

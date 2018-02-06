@@ -1,0 +1,110 @@
+#!/usr/bin/env python
+
+from libonsclient import *
+from optparse import OptionParser
+
+####
+# ONS DEMO : main script for testing ONS
+####
+
+import time
+import os
+import sys
+import thread
+import getpass
+import webbrowser
+
+#
+# Thread to watch log file and extract EPC code
+#
+def T_watch1() :
+    global fd
+    # print "Watching file : " + fd.name
+    save_mt = os.fstat(fd.fileno()).st_mtime
+    while 1:
+        st = os.fstat(fd.fileno())
+        if st.st_mtime > save_mt:
+            save_mt = st.st_mtime
+
+            # extract EPC code
+            fd.seek(0)
+            data = fd.readlines()
+            str = data[len(data)-1]
+            request_ons(str[:24])
+
+        time.sleep(0.2)
+
+#
+# User callback (what to do with the URL retreived from ONS)
+#
+def go_to_url(url) :
+    print_info("=====> Action : launching web browser...")
+    try :
+        # firefox = webbrowser.get('firefox')
+        # firefox.open_new_tab(url) 
+    
+        webbrowser.open_new_tab(url)
+    except webbrowser.Error:
+        print "Web browser error !"
+
+#
+#
+
+def go_to_url(url) :
+    print "Result : " + url + "\n"
+
+def print_info(str) :
+    if '-q' not in sys.argv[1:] :
+        print str
+        print
+
+    if '-v' in sys.argv[1:] :
+        getpass.getpass("")
+        # raw_input()
+
+
+#
+# Request ONS with a GS1 Identifier
+#
+def request_ons(gs1_code) :
+
+    # select default ons root configuration
+    onsconf = "onseu"
+
+    if '-onsas' in sys.argv[1:] :
+        onsconf = "onsas"
+    elif '-onsam' in sys.argv[1:] :
+        onsconf = "onsam"
+    elif '-onsaf' in sys.argv[1:] :
+        onsconf = "onsaf"
+    elif '-onsepc1' in sys.argv[1:] :
+        onsconf = "onsepc1"
+
+    url = code2url(gs1_code, get_ons_resolv_conf("./resolv_conf/" + onsconf + ".conf"), "epc+html")
+       
+    if len(url) != 0:
+        go_to_url(url)
+
+#
+# Main
+#
+
+filename = "rdemo.txt"
+
+fd = open(filename, "r")
+
+try :
+    thread.start_new_thread(T_watch1, ()) # Watch log file
+
+    if '-bc' not in sys.argv[1:] :
+        while 1:
+            time.sleep(0.2)
+    else :
+        while 1:
+            gs1_code = getpass.getpass("") # Watch stdin (keyboard, barcode reader, 2D reader...)
+        
+            if len(gs1_code) == 13 :
+                request_ons(gs1_code)
+
+except KeyboardInterrupt: 
+    fd.close()

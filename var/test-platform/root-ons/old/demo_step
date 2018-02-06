@@ -1,0 +1,88 @@
+#!/bin/bash
+
+# script utilisé pour la demo avec code 2D :
+#   - permet de positionner le fichiers adéquats pour dérouler la démo
+#   - un paramètre obligatoire : step (0, 1, 2...)
+
+function switch_db_file() {
+    ref_link=$1
+    opt=$2
+    switch_default_file="$ref_link.default"
+    switch_demo_file="$ref_link.demo"
+
+    if [ "$opt" == "on" ]
+    then
+        if [ -f $switch_demo_file ]
+        then
+            rm $ref_link
+            ln -s $switch_demo_file $ref_link
+        fi
+    elif [ "$opt" == "off" ]
+    then
+        if [ -f $switch_default_file ]
+        then
+            rm $ref_link
+            ln -s $switch_default_file $ref_link
+        fi
+    fi
+}
+
+exec 1>/dev/null
+exec 2>&1
+STEP=$1
+
+if [ "$STEP" == "" ]
+then
+    echo "Usage : $0 [step-number]"
+    exit 1
+fi
+
+cd $(dirname $(readlink -f $0))
+
+# Set demo step 
+case $STEP in
+    0)
+        # step : simple case OK + redirect onsas OK + malta KO
+        switch_db_file "db.onseu-root-ons" "off"
+        switch_db_file "db.onsas-root-ons" "off"
+        /var/www/cmt/demo-cmt.txt.sh off
+        ./update_redirections.sh "onseu.test"
+        ./update_redirections.sh "onsam.test"
+        ./update_redirections.sh "onsas.test"
+        ;;
+    1) 
+        # step : Malta on european root OK; from others roots : KO
+        switch_db_file "db.onseu-root-ons" "on"
+        rndc -s 2001:660:3003:6::7:134 reload onseu.test 
+        ;;
+    2)
+        # step : sync CMT => Malta OK from all roots
+        /var/www/cmt/demo-cmt.txt.sh on1
+        ./update_redirections.sh "onseu.test"
+        ./update_redirections.sh "onsam.test"
+        ./update_redirections.sh "onsas.test"
+        ;;
+    3)
+        # step : move Malta from european root to asian root, from American : KO
+        switch_db_file "db.onseu-root-ons" "off"
+        rndc -s 2001:660:3003:6::7:134 reload onseu.test 
+        switch_db_file "db.onsas-root-ons" "on"
+        rndc -s 2001:660:3003:6::7:134 reload onsas.test 
+        /var/www/cmt/demo-cmt.txt.sh off
+        ./update_redirections.sh "onsas.test"
+        ;;
+    4)
+        # step : sync CMT => Malta redirection OK for all roots 
+        /var/www/cmt/demo-cmt.txt.sh on2
+        ./update_redirections.sh "onseu.test"
+        ./update_redirections.sh "onsam.test"
+        ./update_redirections.sh "onsas.test"
+        ;;
+    *)
+        ;;
+esac 
+
+# flush recursive server
+rndc -s 2001:660:3003:6::7:133 flush
+
+exit 0

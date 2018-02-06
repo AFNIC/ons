@@ -1,0 +1,8 @@
+; F-ONS redirections (from Common Mapping Table)
+5.3.5.sgtin.id.ons-peer-africa.gennic.net. DNAME 5.3.5.sgtin.id.ons-peer.eu. ; GS1 Malta (535)
+0.0.3.sgtin.id.ons-peer-africa.gennic.net. DNAME 0.0.3.sgtin.id.ons-peer.eu. ; GS1 France (300)
+9.9.0.sgtin.id.ons-peer-africa.gennic.net. DNAME 9.9.0.sgtin.id.ons-peer.com. ; GS1 France (099)
+0.5.7.sgtin.id.ons-peer-africa.gennic.net. DNAME 0.5.7.sgtin.id.ons-peer.com. ; GS1 Mexico (750)
+5.5.7.sgtin.id.ons-peer-africa.gennic.net. DNAME 5.5.7.sgtin.id.ons-peer.com. ; GS1 Peru (755)
+0.5.4.sgtin.id.ons-peer-africa.gennic.net. DNAME 0.5.4.sgtin.id.ons-peer.asia. ; GS1 Japan (450)
+0.9.6.sgtin.id.ons-peer-africa.gennic.net. DNAME 0.9.6.sgtin.id.ons-peer.asia. ; GS1 China (690)

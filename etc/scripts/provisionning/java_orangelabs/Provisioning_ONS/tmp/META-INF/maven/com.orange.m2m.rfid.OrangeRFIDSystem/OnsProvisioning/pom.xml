@@ -1,0 +1,82 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.orange.m2m.rfid.OrangeRFIDSystem</groupId>
+	<artifactId>OnsProvisioning</artifactId>
+	<version>2.9.0-SNAPSHOT</version>
+	<name>ONS provisioning</name>
+	<description>Allows to provisioning local ONS with entries of a company's product catalog</description>
+	<packaging>jar</packaging>
+
+	<parent>
+		<artifactId>ProvisioningPortal</artifactId>
+		<groupId>com.orange.m2m.rfid.OrangeRFIDSystem</groupId>
+		<version>2.9.0-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.fosstrak.tdt</groupId>
+			<artifactId>tdt</artifactId>
+			<!--<version>0.9.1-SNAPSHOT</version>-->
+		</dependency>
+		<dependency>
+			<groupId>com.orange.m2m.rfid.OrangeRFIDSystem.ProvisioningPortal</groupId>
+			<artifactId>portal-commons</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.orange.m2m.rfid.OrangeRFIDSystem.ProvisioningPortal</groupId>
+			<artifactId>ons-commons</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+	</dependencies>
+	<!--
+	<repositories>
+		<repository>
+			<id>fosstrak-repository</id>
+			<name>Fosstrak repository</name>
+			<url>http://maven-repository.fosstrak.org/releases</url>
+		</repository>
+	</repositories>
+	-->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>com.orange.api.ons.provisioning.ONSProvisioning</mainClass>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

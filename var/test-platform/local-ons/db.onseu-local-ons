@@ -1,0 +1,17 @@
+; Conf file for 0.1.4.6.0.0.3.sgtin.id.onseu.test 
+
+$TTL 1
+
+@ IN SOA local-ons.rd.nic.fr. hostmaster.rd.nic.fr. (
+        2009080800  ; serial
+        3h  ; refresh
+        1h  ; retry
+        1w  ; expire
+        1 ) ; negative cache
+
+        IN NS local-ons.rd.nic.fr.
+
+; NAPTR 
+5.4.0.0.0.1  IN  NAPTR  0  0  "u"  "EPC+html"  "!^.*$!http://www.friskpowermint.ch/?fuseaction=m1.home&lan=fr!" .
+             IN  NAPTR  1  0  "u"  "EPC+epcis"  "!^.*$!http://db1.compX.fr/pl/epcis_plus!" .
+             IN  NAPTR  2  0  "u"  "EPC+epcis"  "!^.*$!http://db2.compX.fr/bin/epcis_db!" .

@@ -1,0 +1,16 @@
+; zone file for Proxi-Produit local ONS
+
+$TTL 180
+
+@ IN SOA pp-dlocal-ons.rd.nic.fr. hostmaster.nic.fr. (
+    2011121202 ; serial
+    6h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    180 ) ; negative cache
+
+    IN NS pp-dlocal-ons.rd.nic.fr.
+    IN NS ns3.nic.fr.
+
+; NAPTR for GTIN : 3181232138345 (GS1 France test)
+5.4.3.8.3.1.2 IN NAPTR 0 0 "u"  "EPC+html"  "!^.*$!http://productonline.fr!" .

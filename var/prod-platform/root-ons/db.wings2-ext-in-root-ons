@@ -1,0 +1,20 @@
+; Zone file for root-ons (WINGS2-ext Indian ONS Root)
+
+$TTL 1
+
+@ IN SOA ns1-root.ons-servers.in. hostmaster.nic.fr. (
+ 2012012232 ; serial
+    21600  ; refresh
+    3600  ; retry
+    3600000  ; expire
+    7200 ) ; negative cache
+
+    IN NS ns1-root.ons-servers.in.
+    IN NS ns2-root.ons-servers.in.
+
+; redirections (DNAME)
+$include /var/ons/prod-platform/root-ons/db.wings2-ext-in-root-ons.redirect
+
+; Delegations to indian company (GCP=8901372915)
+5.1.9.2.7.3.1.0.9.8.gtin.id IN NS ns1-local.ons-servers.in. 
+;                            IN NS ns2-local.ons-servers.in.

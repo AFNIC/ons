@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# script utilisé pour la demo avec code 2D :
+#   - permet de positionner le fichiers adéquats pour dérouler la démo
+#   - un paramètre obligatoire : step (0, 1, 2...)
+
+exec 1>/dev/null
+exec 2>&1
+STEP=$1
+
+# Set demo step 
+case $STEP in
+    0)
+        # step : simple case OK + redirect onsas OK + malta KO
+        ssh root@chani "/var/ons/demo-db.onseu.test.sh off"
+        ssh root@iris "/var/ons/demo-db.onsas.test.sh off"
+        /var/www/cmt/demo-cmt.txt.sh off
+        ssh root@chani "/etc/ons/scripts/update_prefixes/update_prefixes"
+        ssh root@iris "/etc/ons/scripts/update_prefixes/update_prefixes"
+        ssh root@adia "/etc/ons/scripts/update_prefixes/update_prefixes"
+        ;;
+    1) 
+        # step : Malta on european root OK; from others roots : KO
+        ssh root@chani "/var/ons/demo-db.onseu.test.sh on"
+        ;;
+    2)
+        # step : sync CMT => Malta OK from all roots
+        /var/www/cmt/demo-cmt.txt.sh on1
+        ssh root@iris "/etc/ons/scripts/update_prefixes/update_prefixes"
+        ssh root@adia "/etc/ons/scripts/update_prefixes/update_prefixes"
+        ssh root@chani "/etc/ons/scripts/update_prefixes/update_prefixes"
+        ;;
+    3)
+        # step : move Malta from european root to asian root, from American : KO
+        ssh root@chani "/var/ons/demo-db.onseu.test.sh off"
+        ssh root@iris "/var/ons/demo-db.onsas.test.sh on"
+        /var/www/cmt/demo-cmt.txt.sh off
+        ssh root@iris "/etc/ons/scripts/update_prefixes/update_prefixes"
+        ;;
+    4)
+        # step : sync CMT => Malta redirection OK for all roots 
+        /var/www/cmt/demo-cmt.txt.sh on2
+        ssh root@chani "/etc/ons/scripts/update_prefixes/update_prefixes"
+        ssh root@iris "/etc/ons/scripts/update_prefixes/update_prefixes"
+        ssh root@adia "/etc/ons/scripts/update_prefixes/update_prefixes"
+        ;;
+    *)
+        ;;
+esac 
+
+# flush recursive server
+rndc -s 2001:660:3003:6::7:133 flush
+
+exit 0

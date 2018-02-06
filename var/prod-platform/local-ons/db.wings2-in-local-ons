@@ -1,0 +1,16 @@
+; zone file for local-ons (WINGS2-ext Indian ONS Root)
+
+$TTL 1
+
+@ IN SOA ns1-local.ons-servers.in. hostmaster.nic.fr. (
+    2011122800 ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    1 ) ; negative cache
+
+    IN NS ns1-local.ons-servers.in. 
+;    IN NS ns2-local.ons-servers.in. 
+
+; NAPTR example for indian GTIN-13:8901372915416 (GCP=8901372915)
+6.1.4 NAPTR 0 0 "u"  "EPC+html"  "!^.*$!http://www.example.in/anyproduct!" .

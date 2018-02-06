@@ -1,0 +1,10 @@
+; serial:2012011901
+    
+; GS1 France 
+300-379:GS1 France:ons-peer.fr
+
+; GS1 India 
+890:GS1 India:ons-peer.in
+
+; GS1 Mexico
+750:GS1 Mexico:ons-peer.mx

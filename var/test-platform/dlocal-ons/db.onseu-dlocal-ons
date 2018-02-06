@@ -1,0 +1,16 @@
+; Conf file for 1.4.8.4.5.3.5.sgtin.id.onseu.test 
+
+$TTL 1
+
+@ IN SOA dlocal-ons.rd.nic.fr. hostmaster.rd.nic.fr. (
+        2009080800  ; serial
+        3h  ; refresh
+        1h  ; retry
+        1w  ; expire
+        1 ) ; negative cache
+
+        IN  NS  dlocal-ons.rd.nic.fr. 
+
+; NAPTR
+8.6.6.0.0.0     IN        NAPTR  0  0  "u" "EPC+html" "!^.*$!http://www.visitmalta.com/main?l=4!"   .
+; 8.6.6.0.0.0     IN        NAPTR  0  0  "u" "EPC+html" "!^.*$!http://fr.wikipedia.org/wiki/Malte!"   .

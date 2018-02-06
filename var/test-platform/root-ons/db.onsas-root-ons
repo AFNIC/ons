@@ -1,0 +1,24 @@
+;configuration file for onsas.test
+
+$TTL 1
+
+@ IN SOA root-ons.rd.nic.fr. hostmaster.rd.nic.fr. (
+ 2012012204 ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    1 ) ; negative cache
+
+    IN NS root-ons.rd.nic.fr. 
+
+; DNAME redirections
+$include /var/ons/test-platform/root-ons/db.onsas-root-ons.redirect
+
+; Delegation to Japan
+0.5.4.sgtin.id IN NS country-ons.rd.nic.fr.
+
+; Delegation directly to Company
+1.7.5.4.7.2.6.sgtin.id IN NS dlocal-ons.rd.nic.fr. 
+
+; Delegation directly to Company (demo scenario)
+1.4.8.4.5.3.5.sgtin.id IN NS dlocal-ons.rd.nic.fr.

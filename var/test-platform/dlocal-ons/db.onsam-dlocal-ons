@@ -1,0 +1,15 @@
+; Conf file for 9.4.6.4.0.5.7.sgtin.id.onsam.test
+
+$TTL 1
+
+@ IN SOA dlocal-ons.rd.nic.fr. hostmaster.rd.nic.fr. (
+    2009080800  ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    1 ) ; negative cache
+
+    IN NS dlocal-ons.rd.nic.fr. 
+
+; NAPTR
+8.3.2.7.4.0 IN NAPTR 0 0  "u" "EPC+html" "!^.*$!http://comp1.mx/review_doc.html!" .

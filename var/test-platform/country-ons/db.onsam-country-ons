@@ -1,0 +1,16 @@
+; Configuration file for 9.9.0.sgtin.id.onsam.test.db
+
+$TTL 1
+
+@ IN SOA country-ons.rd.nic.fr. hostmaster.rd.nic.fr. (
+    2009080800  ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    1 ) ; negative cache
+
+; name server RRs for the domain
+    IN NS country-ons.rd.nic.fr.
+
+; Delegation to Canadian company
+7.7.8.1 IN NS local-ons.rd.nic.fr.

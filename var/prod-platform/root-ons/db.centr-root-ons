@@ -1,0 +1,29 @@
+; zone file for root-ons (CENTR)
+
+$TTL 180 
+
+@ IN SOA centr-root-ons.rd.nic.fr. hostmaster.nic.fr. (
+ 2011040601 ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    180 ) ; negative cache
+
+    IN NS centr-root-ons.rd.nic.fr.
+    IN NS ns3.nic.fr.
+
+; Redirections (DNAME or NAPTR)
+$include /var/ons/prod-platform/root-ons/db.centr-root-ons.redirect 
+
+; Delegations to France
+0.0.3.sgtin.id  IN NS centr-country-ons.rd.nic.fr. 
+                IN NS ns3.nic.fr.
+
+; Delegation directly to companies
+1.4.8.4.5.3.5.sgtin.id  IN NS centr-dlocal-ons.rd.nic.fr.
+                        IN NS ns3.nic.fr.
+
+; GTIN delegation
+; 4.8.4.2.0.0.0.7.7.3.gtin.id IN NS pp-dlocal-ons.rd.nic.fr.
+7.7.3.gtin.id IN NS centr-dlocal-ons.rd.nic.fr.
+              IN NS ns3.nic.fr.

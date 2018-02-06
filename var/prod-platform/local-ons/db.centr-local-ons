@@ -1,0 +1,16 @@
+; zone file for local-ons (CENTR)
+
+$TTL 180
+
+@ IN SOA centr-local-ons.rd.nic.fr. hostmaster.nic.fr. (
+    2011121202 ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    180 ) ; negative cache
+
+    IN NS centr-local-ons.rd.nic.fr. 
+    IN NS ns3.nic.fr.
+
+; NAPTR for products 
+5.4.0.0.0.1 IN NAPTR 0 0 "u"  "EPC+html"  "!^.*$!http://www.friskpowermint.ch/?fuseaction=m1.home&lan=fr!" .

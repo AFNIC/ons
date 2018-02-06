@@ -1,0 +1,184 @@
+#!/usr/bin/env python
+
+import libonsclient
+
+####
+# ONS DEMO : main script for testing ONS
+####
+
+import time
+import os
+import sys
+import thread
+import getpass
+import webbrowser
+import getopt
+
+#
+# Thread to watch log file and extract EPC code
+#
+def T_watch1() :
+    global fd
+    # print "Watching file : " + fd.name
+    save_mt = os.fstat(fd.fileno()).st_mtime
+    while 1:
+        st = os.fstat(fd.fileno())
+        if st.st_mtime > save_mt:
+            save_mt = st.st_mtime
+
+            # extract EPC code
+            fd.seek(0)
+            data = fd.readlines()
+            str = data[len(data)-1]
+            request_ons(str[:24])
+
+        time.sleep(0.2)
+
+#
+# Request ONS with a GS1 Identifier
+#
+def request_ons(gs1_code) :
+    #  GTIN-13 or EPC-96
+    if len(gs1_code) == 13 or len(gs1_code) == 24 : 
+        # ONS resolution
+        url = libonsclient.code2url(gs1_code, resolv_conf, ons_service) 
+        
+        # result
+        if len(url) != 0 :
+            if opt_web_browser :
+                go_to_url(url) 
+            else :
+                print url
+#
+# User callback (what to do with the URL retreived from ONS)
+#
+def go_to_url(url) :
+    print_info("=====> Action : launching web browser...")
+    try :
+        # firefox = webbrowser.get('firefox')
+        # firefox.open_new_tab(url) 
+    
+        webbrowser.open_new_tab(url)
+    except webbrowser.Error:
+        print "Web browser error !"
+
+#
+# Output : overload libonsclient's print_info function
+#
+def print_info(str):
+    if not opt_quiet :
+        print str
+        if opt_step_by_step :
+            getpass.getpass("")
+        else :
+            print
+
+libonsclient.print_info = print_info
+
+#
+# Usage function for this script
+#
+def usage() :
+    print
+    print "Usage : " + sys.argv[0] + " [options] [-c GS1-CODE] -r ONSROOT" 
+    print "options :"
+    print "    -h, --help          show this help"
+    print "    -q, --quiet         quiet mode, no output"
+    print "    -s, --step          output step by step"
+    print "    -f, --rfid          enable RFID/EPC reading from log file"
+    print "    -b, --browser       open final url in default web browser"
+    print "    -c, --code          EPC (24 hexa) or barcode (GTIN-13)"
+    print "    -r, --root          ONS root queried by default : [onseu|onsas|onsam|ons-peer-eu|ons-peer-com|ons-peer-asia|onsepc1]"
+    print
+
+#
+# Main
+#
+if __name__ == "__main__":
+
+    opt_quiet = False
+    opt_step_by_step = False
+    opt_rfid_enabled = False
+    opt_web_browser = False 
+    ons_root_conf = ""
+    gs1_code = ""
+    
+    # options and usage
+    try:
+        # valid options for this script
+        opts, args = getopt.getopt(sys.argv[1:], "hqsfbr:c:", ["help", "quiet", "step", "rfid", "nobrowser", "root=", "code="])
+
+        if len(opts) == 0:
+            usage()
+            sys.exit(2)
+
+        # scan options
+        for option, value in opts :
+            if option in ["-q", "--quiet"]:
+                opt_quiet = True 
+            elif option in ["-s", "--step"]:
+                opt_step_by_step = True
+            elif option in ["-f", "--rfid"]:
+                opt_rfid_enabled = True
+            elif option in ["-b", "--browser"]:
+                opt_web_browser = True 
+            elif option in ["-r", "--root"]:
+                ons_root_conf = value.strip()
+            elif option in ["-c", "--code"]:
+                gs1_code = value
+                if len(gs1_code) != 13 and len(gs1_code) != 24 :
+                    raise getopt.GetoptError, "GS1 code not recognized"
+            else : 
+                usage()
+                sys.exit(0)
+
+        if ons_root_conf == "" :
+            raise getopt.GetoptError, "ONS root option missing " 
+        if ons_root_conf not in ("onseu", "onsas", "onsam", "onsepc1", "ons-peer-eu", "ons-peer-com", "ons-peer-asia") :
+            raise getopt.GetoptError, "option or parameter not recognized " + ons_root_conf
+
+    except getopt.GetoptError, err:
+        # print help information and exit
+        print str(err) # will print something like "option -a not recognized"
+        usage()
+        sys.exit(2)
+    
+    # get onsroot resolv configuration
+    resolv_conf = libonsclient.get_ons_resolv_conf("./resolv_conf/" + ons_root_conf + ".conf")
+    # set ONS service required
+    ons_service = "epc+html"
+    fd = False
+
+    if gs1_code != "" : # It's a parameter
+        # ONS resolution
+        request_ons(gs1_code)
+        sys.exit(0)
+
+    try :
+
+        # RFID/EPC mode enabled : get EPC from RFID reader log file
+        if opt_rfid_enabled :
+            rfid_epc_file_capture = "rdemo.txt"
+            fd = open(rfid_epc_file_capture, "r")
+            thread.start_new_thread(T_watch1, ()) # Watch log file
+
+        # watch stdin (keyboard, barcode reader, 2D reader...)
+        while 1:
+            if opt_rfid_enabled :
+                gs1_code = getpass.getpass("") # without echo
+            else :
+                gs1_code = raw_input("GS1 code : ")
+            
+            # ONS resolution
+            request_ons(gs1_code)
+
+    except IOError:
+        print "RFID/EPC log file (" + rfid_epc_file_capture  + ") not found !"
+
+    except KeyboardInterrupt: 
+        if opt_rfid_enabled :
+            if fd :
+                fd.close()
+
+    except EOFError:
+        pass    

@@ -1,0 +1,30 @@
+; zone file for local-ons (WINGS2-ext French ONS Root)
+
+$TTL 1
+
+@ IN SOA ns1-local.ons-servers.fr. hostmaster.nic.fr. (
+    2012050903 ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    1 ) ; negative cache
+
+    IN NS ns1-local.ons-servers.fr. 
+    IN NS ns2-local.ons-servers.fr. 
+
+; NAPTR example for french GTIN-13:3770002484999 (GCP=3770002484)
+; 9.9.9 NAPTR 0 0 "u"  "EPC+html"  "!^.*$!http://www.zflkejfzefzef.fr!" .
+
+; NAPTR example for french GTIN-13:3770002484982 (GCP=3770002484)
+; 2.8.9 NAPTR 0 0 "u"  "EPC+html"  "!^.*$!http://www.qsddbbqd52525.fr!" .
+
+; NAPTR example for french GTIN-13:3770002484104 (GCP=3770002484)
+; 0.0.1 NAPTR 0 0 "u"  "EPC+html"  "!^.*$!http://www.afnic.fr/fr/l-afnic-en-bref/actualites/actualites-generales/5381/show/l-afnic-publie-l-edition-2011-de-l-observatoire-du-marche-des-noms-de-domaine.html!" .
+; 0.0.1 NAPTR 0 1 "u"  "EPC+html"  "!^.*$!http://test.html!" .
+
+; for testing 
+0.0.1 IN NAPTR 0 0 "t"  "http://rd.nic.fr/ons/prefix"  "!^.*$!06,7!" .
+0.0.1 IN NAPTR 0 0 "u"  "http://rd.nic.fr/ons/epcis"  "!^.*$!http://www.afnic.fr!" .
+0.0.1 IN NAPTR 1 0 "u"  "http://rd.nic.fr/ons/mobilecomm"  "!^.*$!http://www.afnic.fr!" .
+
+

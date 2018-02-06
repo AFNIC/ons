@@ -1,0 +1,16 @@
+; zone file for local-ons (WINGS2-ext Mexican ONS Root)
+
+$TTL 1
+
+@ IN SOA ns1-local.ons-servers.mx. hostmaster.nic.fr. (
+    2011122701 ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    1 ) ; negative cache
+
+    IN NS ns1-local.ons-servers.mx. 
+;    IN NS ns2-local.ons-servers.mx. 
+
+; NAPTR example for mexican GTIN-13: 7504394128324 (GCP=7504394128)
+4.2.3 NAPTR 0 0 "u"  "EPC+html"  "!^.*$!http://www.example.mx/anyproduct!" .

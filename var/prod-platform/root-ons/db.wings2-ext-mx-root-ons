@@ -1,0 +1,20 @@
+; Zone file for root-ons (WINGS2-ext Mexican ONS Root)
+
+$TTL 1
+
+@ IN SOA ns1-root.ons-servers.mx. hostmaster.nic.fr. (
+ 2012012232 ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    1 ) ; negative cache
+
+    IN NS ns1-root.ons-servers.mx.
+    IN NS ns2-root.ons-servers.mx.
+
+; redirections (DNAME)
+$include /var/ons/prod-platform/root-ons/db.wings2-ext-mx-root-ons.redirect
+
+; Delegations to mexican company (GCP=7504394128)
+8.2.1.4.9.3.4.0.5.7.gtin.id IN NS ns1-local.ons-servers.mx. 
+;                            IN NS ns2-local.ons-servers.mx.

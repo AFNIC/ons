@@ -1,0 +1,15 @@
+; Zone file for dlocal-ons (WINGS) - African Company
+
+$TTL 1
+
+@ IN SOA wings-dlocal-ons.rd.nic.fr. hostmaster.nic.fr. (
+    2011010302 ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    1 ) ; negative cache
+
+    IN NS wings-dlocal-ons.rd.nic.fr. 
+
+; NAPTR for products 
+1.4.1.3.5.2 IN NAPTR 0 0 "u" "EPC+html" "!^.*$!http://en.wikipedia.org/wiki/South_Africa!" .

@@ -1,0 +1,174 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides: ONS
+# Short-Description: start and stop ONS
+# All conf are in /etc/ons/conf and all zones in /var/ons
+### END INIT INFO
+
+. /etc/ons/scripts/rc.d/onsctl.conf
+
+start_ons() {
+    ONS_NAME=`basename $1 | awk -F '.conf' '{ print $1 }'`
+
+    if [ "`echo $DAEMON | grep named`" != "" ]; then
+        $DAEMON_CHECKCONF -z $1 1>/dev/null
+    else
+        $DAEMON_CHECKCONF $1 1>/dev/null
+    fi
+
+    if [ $? -eq 0 ]; then
+        PID_FILE="$PID_PATH/`cat $1 | egrep pid.?file | awk -F '"' '{ print $2 }'`"
+        echo -n "  - $ONS_NAME : "
+        if [ -f $PID_FILE ]; then
+            echo "already started !"
+        else
+            DAEMON_USER="`id -un bind 2>/dev/null`"
+            if [ "$DAEMON_USER" = "" ]; then
+                DAEMON_USER="`id -un named 2>/dev/null`"
+                if [ "$DAEMON_USER" = "" ]; then
+                    DAEMON_USER="root"
+                fi
+            fi
+   	        $DAEMON -u $DAEMON_USER -c $1 && echo "[started]" || echo "[ko]"
+        fi
+    else
+	    echo "no valid configuration... canceled !"
+    fi
+}
+
+stop_ons() {
+    ONS_NAME=`basename $1 | awk -F '.conf' '{ print $1 }'`
+    PID_FILE="$PID_PATH/`cat $1 | egrep pid.?file | awk -F '"' '{ print $2 }'`"
+    echo -n "  - $ONS_NAME : "
+ 
+    if [ -f $PID_FILE ]; then
+        kill `cat $PID_FILE` && echo "[stopped]" || echo "[ko]"
+    else
+        echo "not started !"
+    fi
+    return 0
+}
+
+status_ons() {
+    ONS_NAME=`basename $1 | awk -F '.conf' '{ print $1 }'`
+    PID_FILE="$PID_PATH/`cat $1 | egrep pid.?file | awk -F '"' '{ print $2 }'`"
+
+    if [ $IS_BIND -eq 0 ]; then
+        IP="`cat $1 | grep 'listen-on' | grep -v 'none' | awk -F '{' '{ print $2 }' | awk -F '}' '{ print $1 }'`"
+    elif [ $IS_NSD -eq 0 ]; then
+        IP="`cat $1 | grep 'ip-address' | grep -v '#' | awk -F 'ip-address: ' '{ print $2 }'`"
+    fi
+
+    IP="`echo $IP | sed 's/\\n/ /g'`"
+    if [ -f $PID_FILE ]; then
+        echo "  - $ONS_NAME : [running]"
+        echo "        PID : `cat $PID_FILE` ;  IP = {$IP}" 
+    else
+        echo "  - $ONS_NAME : not started"
+    fi
+}
+
+zone_check() {
+    if [ $IS_BIND -eq 0 ]; then
+        ZONE_LIST="`cat $1 | grep 'zone "' | grep -v '#' | awk -F '"' '{ print $2 }'`" 
+    elif [ $IS_NSD -eq 0 ]; then
+        ZONE_LIST="`cat $1 | grep 'name: "' | grep -v '#' | awk -F '"' '{ print $2 }'`"
+    fi
+
+    for ZONE in $ZONE_LIST;
+    do
+        echo -n "  - $ZONE : "
+        zonecheck -r $RESOLVER -P ons $ZONE > /dev/null
+    
+        if [ $? -eq 0 ]; then
+            echo "[ok]"
+        else
+            echo "[ko]"
+        fi
+    done
+}
+
+reload_ons() {
+    ONS_NAME=`basename $1 | awk -F '.conf' '{ print $1 }'`
+    PID_FILE="$PID_PATH/`cat $1 | egrep pid.?file | awk -F '"' '{ print $2 }'`"
+             
+    if [ -f $PID_FILE ]; then
+        if [ $IS_NSD -eq 0 ]; then
+            nsdc -c $1 rebuild 1>/dev/null 
+        fi
+        echo -n "  - $ONS_NAME : " && (kill -1 `cat $PID_FILE` && echo "[reloaded]" || echo "[ko]")
+    else
+        echo "  - $ONS_NAME : not started"
+    fi
+}
+
+case "$1" in
+    start)
+        echo "Starting ONS : "
+        for TLD in `find $ONS_PATH -name '*.conf'`
+	    do
+	        start_ons $TLD
+        done
+    ;;
+
+    stop)
+        echo "Stopping ONS : "
+        for TLD in `find $ONS_PATH -name '*.conf'`
+        do
+            stop_ons $TLD
+        done
+    ;;
+
+    restart)
+	    $0 stop
+	    $0 start
+        /etc/init.d/bind9 restart
+    ;;
+    
+    force-start)
+        rm -f $PID_PATH/pid/*.pid
+        $0 start
+    ;;
+
+    status)
+        echo "ONS status : "
+        for TLD in `find $ONS_PATH -name '*.conf'`
+        do  
+            status_ons $TLD
+	    done
+    ;;
+
+    zc | zonecheck)
+        echo "ONS zonecheck (using local \"$ZONECHECK_PROFILE\" profile) : "
+        for TLD in `find $ONS_PATH -name '*.conf' | grep -v telma.conf`
+        do  
+            zone_check $TLD
+	    done
+    ;;
+
+    reload)
+        if [ "$2" != "" ]; then
+            TLD=`find $ONS_PATH -name $2.conf`
+        else
+            TLD=`find $ONS_PATH -name '*.conf'` 
+        fi
+        
+        if [ "$TLD" = "" ]; then
+            echo "No such ONS server !"
+        else
+            for iTLD in $TLD
+            do
+                reload_ons $iTLD 
+            done
+        fi 
+        /etc/init.d/bind9 reload
+    ;;
+
+    *)
+	    echo "Usage: $0 {start|stop|restart|force-start|status|zc (zonecheck)|reload <name>}"
+	    exit 1
+    ;;
+esac
+
+exit 0

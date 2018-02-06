@@ -1,0 +1,15 @@
+; Conf file for 2.5.9.1.0.5.4.sgtin.id.onsas.test.
+
+$TTL 1
+
+@ IN SOA local-ons.rd.nic.fr. hostmaster.rd.nic.fr. (
+    2009080800  ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    1 ) ; negative cache
+
+    IN NS local-ons.rd.nic.fr.
+
+; NAPTR 
+9.8.6.5.7.3 IN NAPTR 0 0 "u" "EPC+html" "!^.*$!http://www.sony.ch/lang/fr/product/ccf-cd-r/10cdq80sp!" .

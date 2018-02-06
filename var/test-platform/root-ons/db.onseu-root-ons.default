@@ -1,0 +1,21 @@
+; Configuration file for onseu.test
+
+$TTL 1
+
+@ IN SOA root-ons.rd.nic.fr. hostmaster.rd.nic.fr. (
+    2010121301 ; serial
+    3h  ; refresh
+    1h  ; retry
+    1w  ; expire
+    1 ) ; negative cache
+
+    IN NS root-ons.rd.nic.fr. 
+
+; DNAME redirections
+$include /var/ons/test-platform/root-ons/db.onseu-root-ons.redirect
+
+; Delegations to France
+0.0.3.sgtin.id IN NS country-ons.rd.nic.fr. 
+
+; Delegations directly to Companies 
+; 1.4.8.4.5.3.5.sgtin.id IN NS dlocal-ons.rd.nic.fr.
